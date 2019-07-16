@@ -2,14 +2,15 @@ import unittest
 import boggle
 from string import ascii_uppercase
 
+
 class TestBoggle(unittest.TestCase):
     """
     Our test suite for boggle solver
     """
 
-    def Test_can_create_an_empty_grid(self):
+    def test_can_create_an_empty_grid(self):
         """
-        test to see if we can create an empty grid
+        Test to see if we can create an empty grid
         """
         grid = boggle.make_grid(0, 0)
         self.assertEqual(len(grid), 0)
@@ -19,15 +20,10 @@ class TestBoggle(unittest.TestCase):
         Test is to ensure that the total size of the grid
         is equal to width * height
         """
-
         grid = boggle.make_grid(2, 3)
         self.assertEqual(len(grid), 6)
 
     def test_grid_coordinates(self):
-        """
-        Test to ensure that all of the coordinates
-        inside of the grid can be accessed
-        """
         grid = boggle.make_grid(2, 2)
         self.assertIn((0, 0), grid)
         self.assertIn((0, 1), grid)
@@ -48,7 +44,6 @@ class TestBoggle(unittest.TestCase):
         """
         Ensure that a position has 8 neighbours
         """
-
         coords = (1, 2)
         neighbours = boggle.neighbours_of_position(coords)
         self.assertIn((0, 1), neighbours)
@@ -64,7 +59,6 @@ class TestBoggle(unittest.TestCase):
         """
         Ensure that all of the grid positions have neighbours
         """
-
         grid = boggle.make_grid(2, 2)
         neighbours = boggle.all_grid_neighbours(grid)
         self.assertEqual(len(neighbours), len(grid))
@@ -72,3 +66,13 @@ class TestBoggle(unittest.TestCase):
             others = list(grid)  # create a new list from the dictionary's keys
             others.remove(pos)
             self.assertListEqual(sorted(neighbours[pos]), sorted(others))
+
+    def test_converting_a_path_to_a_word(self):
+        """
+        Ensure that paths can be converted to words
+        """
+        grid = boggle.make_grid(2, 2)
+        oneLetterWord = boggle.path_to_word(grid, [(0, 0)])
+        twoLetterWord = boggle. path_to_word(grid, [(0, 0), (1, 1)])
+        self.assertEqual(oneLetterWord, grid[(0, 0)])
+        self.assertEqual(twoLetterWord, grid[(0, 0)] + grid[(1, 1)])
